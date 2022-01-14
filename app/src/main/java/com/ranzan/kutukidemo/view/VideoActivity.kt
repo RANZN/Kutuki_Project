@@ -16,6 +16,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import com.ranzan.kutukidemo.R
 import com.ranzan.kutukidemo.model.VideoClass
+import com.ranzan.kutukidemo.repository.Repo
 import com.ranzan.kutukidemo.view.ItemClickListners.RecommendedItemClicked
 import com.ranzan.kutukidemo.view.adpter.RecommendedAdapter
 import com.ranzan.kutukidemo.viewmodel.TheViewModel
@@ -33,11 +34,13 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var playingVideo: VideoClass
     private var fullscreen = false
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
 
-        viewModel = ViewModelProvider(this, TheViewModelFactory()).get(TheViewModel::class.java)
+        viewModel = ViewModelProvider(this, TheViewModelFactory(Repo)).get(TheViewModel::class.java)
 
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 

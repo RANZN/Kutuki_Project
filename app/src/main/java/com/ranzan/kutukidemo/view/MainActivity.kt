@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.ranzan.kutukidemo.R
 import com.ranzan.kutukidemo.model.CategoryClass
+import com.ranzan.kutukidemo.repository.Repo
 import com.ranzan.kutukidemo.view.ItemClickListners.ItemCategoryClicked
 import com.ranzan.kutukidemo.view.adpter.MainLayoutAdapter
 import com.ranzan.kutukidemo.viewmodel.TheViewModel
@@ -25,13 +26,12 @@ class MainActivity : AppCompatActivity(), ItemCategoryClicked {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
-        actionBar?.hide()
 
-        viewModel = ViewModelProvider(this, TheViewModelFactory()).get(TheViewModel::class.java)
+        viewModel = ViewModelProvider(this, TheViewModelFactory(Repo)).get(TheViewModel::class.java)
 
         viewModel.fetchData()
 
-        viewModel.imageList().observe(this, Observer {
+        viewModel.getImageList().observe(this, Observer {
             setRecyclerView(it)
         })
     }
