@@ -3,57 +3,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/appColor"
     android:layout_height="match_parent"
+    android:background="@color/appColor"
     tools:context=".view.VideoActivity">
 
     <Button
         android:id="@+id/backBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="15sp"
         android:background="@drawable/btn_bg"
+        android:drawableLeft="@drawable/ic_back"
         android:text="BACK"
         android:textColor="@color/white"
-        android:drawableLeft="@drawable/ic_back"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@id/videoLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <RelativeLayout
-        android:id="@+id/videoLayout"
-        android:layout_width="0dp"
-        android:gravity="center"
-        android:layout_height="0dp"
-        android:layout_marginStart="200sp"
-        android:layout_marginEnd="200sp"
-        app:layout_constraintBottom_toTopOf="@id/recommendedRecyclerView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <com.google.android.exoplayer2.ui.PlayerView
-            android:foreground="@drawable/img_border"
-            app:use_controller="true"
-            android:id="@+id/videoPlayer"
-            android:layout_centerInParent="true"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <ProgressBar
-            android:id="@+id/videoProgressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true" />
-    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recommendedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="150sp"
         app:layout_constraintBottom_toBottomOf="parent" />
+
+    <com.google.android.exoplayer2.ui.PlayerView
+        android:id="@+id/videoPlayer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:controller_layout_id="@layout/exo_playback_control_view"
+        app:layout_constraintBottom_toTopOf="@id/recommendedRecyclerView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:use_controller="true" />
+
+    <ProgressBar
+        android:id="@+id/videoProgressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@id/videoPlayer"
+        app:layout_constraintEnd_toEndOf="@id/videoPlayer"
+        app:layout_constraintStart_toStartOf="@id/videoPlayer"
+        app:layout_constraintTop_toTopOf="@id/videoPlayer" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

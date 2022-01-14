@@ -4,8 +4,10 @@ package com.ranzan.kutukidemo.view
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,8 @@ import com.ranzan.kutukidemo.view.adpter.RecommendedAdapter
 import com.ranzan.kutukidemo.viewmodel.TheViewModel
 import com.ranzan.kutukidemo.viewmodel.TheViewModelFactory
 import kotlinx.android.synthetic.main.activity_video.*
+import kotlinx.android.synthetic.main.exo_playback_control_view.*
+
 
 class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listener {
 
@@ -28,14 +32,15 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
     private var recommendedListPlaying = 0
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var playingVideo: VideoClass
+    private var fullscreen = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_video)
 
         viewModel = ViewModelProvider(this, TheViewModelFactory()).get(TheViewModel::class.java)
 
-        window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_FULLSCREEN
-        actionBar?.hide()
+        window.decorView.systemUiVisibility =
+            (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
         backBtn.setOnClickListener {
             onBackPressed()
@@ -54,9 +59,36 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
                     playingVideo = data
                     playVideo(data.videoUrl!!)
                     setRecommended()
+                    return@forEach
                 }
             }
         })
+
+        fullscreenButton.setOnClickListener {
+            fullScreen()
+        }
+    }
+
+    private fun fullScreen() {
+        if (fullscreen) {
+            fullscreenButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fullscreen))
+            val params = videoPlayer.layoutParams
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT
+            params.height = (0 * applicationContext.resources.displayMetrics.density).toInt()
+            videoPlayer.layoutParams = params
+            backBtn.visibility = View.VISIBLE
+            fullscreen = false
+
+        } else {
+            backBtn.visibility = View.GONE
+            fullscreenButton.setImageDrawable(ContextCompat.getDrawable(this, R.drawable.ic_fullscreen_exit))
+            val params = videoPlayer.layoutParams
+            params.width = ViewGroup.LayoutParams.MATCH_PARENT
+            params.height = ViewGroup.LayoutParams.MATCH_PARENT
+            videoPlayer.setLayoutParams(params)
+
+            fullscreen = true
+        }
     }
 
     override fun onStart() {
@@ -109,7 +141,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
-        super.onPlayerStateChanged(playWhenReady, playbackState)
+        super.onPlaybackStateChanged(playbackState)
         if (playbackState == Player.STATE_BUFFERING)
             videoProgressBar.visibility = View.VISIBLE
         else if (playbackState == Player.STATE_READY)
@@ -122,7 +154,6 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
             } else {
                 Toast.makeText(this, "Completed", Toast.LENGTH_SHORT).show()
                 videoPlayer.keepScreenOn = false
-
             }
         }
     }
