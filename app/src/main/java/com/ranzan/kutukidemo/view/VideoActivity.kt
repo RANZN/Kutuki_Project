@@ -119,7 +119,11 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
                 Toast.makeText(this, "Playing Next", Toast.LENGTH_SHORT).show()
                 playVideo(recommendedList[recommendedListPlaying++].videoUrl!!)
                 setRecyclerView(recommendedList[recommendedListPlaying].id)
-            } else Toast.makeText(this, "Completed", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "Completed", Toast.LENGTH_SHORT).show()
+                videoPlayer.keepScreenOn = false
+
+            }
         }
     }
 }
