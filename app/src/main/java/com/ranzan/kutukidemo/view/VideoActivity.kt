@@ -85,7 +85,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
             val params = videoPlayer.layoutParams
             params.width = ViewGroup.LayoutParams.MATCH_PARENT
             params.height = ViewGroup.LayoutParams.MATCH_PARENT
-            videoPlayer.setLayoutParams(params)
+            videoPlayer.layoutParams = params
 
             fullscreen = true
         }
