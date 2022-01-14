@@ -41,10 +41,10 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
             onBackPressed()
         }
 
-        var itemId = 1
+        var itemId = 0
 
         if (intent != null && intent.hasExtra("id")) {
-            itemId = intent.getIntExtra("id", 1)
+            itemId = intent.getIntExtra("id", 0)
         }
         viewModel.videoList().observe(this, Observer {
             dataList = it
@@ -122,6 +122,4 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
             } else Toast.makeText(this, "Completed", Toast.LENGTH_SHORT).show()
         }
     }
-
-
 }

@@ -11,13 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.ranzan.kutukidemo.R
 import com.ranzan.kutukidemo.model.CategoryClass
 import com.ranzan.kutukidemo.view.adpter.MainLayoutAdapter
-import com.ranzan.kutukidemo.view.ItemClickListners.OnItemClicked
+import com.ranzan.kutukidemo.view.ItemClickListners.ItemCategoryClicked
 import com.ranzan.kutukidemo.viewmodel.TheViewModel
 import com.ranzan.kutukidemo.viewmodel.TheViewModelFactory
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
-class MainActivity : AppCompatActivity(), OnItemClicked {
+class MainActivity : AppCompatActivity(), ItemCategoryClicked {
 
     private lateinit var viewModel: TheViewModel
 

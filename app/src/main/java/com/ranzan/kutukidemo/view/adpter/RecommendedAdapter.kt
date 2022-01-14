@@ -3,7 +3,6 @@ package com.ranzan.kutukidemo.view.adpter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.ranzan.kutukidemo.R
@@ -44,11 +43,6 @@ class RecommendedAdapter(private val list: ArrayList<VideoClass>, private val re
             view.recommendedImage.setOnClickListener {
                 recommendedItemClicked.onItemClicked(videoClass, adapterPosition)
             }
-        }
-
-        fun highlight() {
-            if (true) view.recommendedImage.foreground = getDrawable(view.context, R.drawable.img_border)
-            else view.recommendedImage.foreground = getDrawable(view.context, R.drawable.img_no_border)
         }
     }
 }
