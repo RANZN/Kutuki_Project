@@ -39,8 +39,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
 
         viewModel = ViewModelProvider(this, TheViewModelFactory()).get(TheViewModel::class.java)
 
-        window.decorView.systemUiVisibility =
-            (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
+        window.decorView.systemUiVisibility = (View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION)
 
         backBtn.setOnClickListener {
             onBackPressed()
