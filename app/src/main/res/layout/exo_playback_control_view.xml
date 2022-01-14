@@ -23,11 +23,12 @@
             android:layout_height="26dp"
             android:layout_weight="1" />
 
+
+
         <ImageButton
             android:id="@+id/fullscreenButton"
             style="@style/ExoMediaButton"
-            android:src="@drawable/ic_fullscreen"
-            />
+            android:src="@drawable/ic_fullscreen" />
 
     </LinearLayout>
 </RelativeLayout>
