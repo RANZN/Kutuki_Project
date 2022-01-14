@@ -45,6 +45,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
             onBackPressed()
         }
 
+
         var itemId = 0
 
         if (intent != null && intent.hasExtra("id")) {
