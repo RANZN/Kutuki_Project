@@ -115,6 +115,7 @@ object Repo {
                     } catch (e: Exception) {
                         e.printStackTrace()
                     }
+
                 }
 
                 override fun onError(e: Throwable) {
