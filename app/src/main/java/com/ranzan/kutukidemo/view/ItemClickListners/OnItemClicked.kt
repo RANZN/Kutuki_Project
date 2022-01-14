@@ -1,4 +1,4 @@
-package com.ranzan.kutukidemo.view.adpter
+package com.ranzan.kutukidemo.view.ItemClickListners
 
 import com.ranzan.kutukidemo.model.CategoryClass
 

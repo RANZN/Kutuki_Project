@@ -21,25 +21,34 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <FrameLayout
+    <RelativeLayout
         android:id="@+id/videoLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
+        android:gravity="center"
         android:layout_height="0dp"
         android:layout_marginStart="200sp"
         android:layout_marginEnd="200sp"
-        app:layout_constraintBottom_toTopOf="@id/recyclerView"
+        app:layout_constraintBottom_toTopOf="@id/recommendedRecyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ProgressBar
+            android:id="@+id/videoProgressBar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" />
+
         <VideoView
             android:id="@+id/videoView"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-    </FrameLayout>
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+        android:id="@+id/recommendedRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="150sp"
         app:layout_constraintBottom_toBottomOf="parent" />

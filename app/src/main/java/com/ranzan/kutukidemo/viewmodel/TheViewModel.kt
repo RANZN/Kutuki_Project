@@ -1,24 +1,22 @@
 package com.ranzan.kutukidemo.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.google.gson.Gson
-import com.ranzan.kutukidemo.Response
+import com.google.gson.JsonObject
 import com.ranzan.kutukidemo.model.CategoryClass
 import com.ranzan.kutukidemo.model.Network
-import com.ranzan.kutukidemo.model.ResponseVideo
 import com.ranzan.kutukidemo.model.VideoClass
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import org.json.JSONObject
 import java.util.*
-import kotlin.collections.ArrayList
 
-class TheViewModel : ViewModel() {
+
+object TheViewModel : ViewModel() {
 
     private val imageList = mutableListOf<CategoryClass>()
     private val videoList = mutableListOf<VideoClass>()
@@ -28,23 +26,21 @@ class TheViewModel : ViewModel() {
 
     fun getImageData() {
         Network.getRetrofit().getCategory()
-            .flatMap { Observable.just(it.response!!) }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<Response> {
+            .subscribe(object : Observer<Any> {
                 override fun onSubscribe(d: Disposable) {
 
                 }
 
-                override fun onNext(t: Response) {
-
+                override fun onNext(t: Any) {
                     val gson = Gson()
-                    val json: String = gson.toJson(t)
+                    val jsonObject: JsonObject = gson.toJsonTree(t).getAsJsonObject()
+                    val json: String = gson.toJson(jsonObject)
                     val jsonData = JSONObject(json)
                     try {
-
-
-                        val jsonArray = jsonData.getJSONObject("videoCategories")
+                        val responseJSON = jsonData.getJSONObject("response")
+                        val jsonArray = responseJSON.getJSONObject("videoCategories")
                         val key = jsonArray.keys()
                         while (key.hasNext()) {
                             val value = key.next()
@@ -80,22 +76,22 @@ class TheViewModel : ViewModel() {
 
     fun getVideoData() {
         Network.getRetrofit().getVideos()
-            .flatMap { Observable.just(it.response!!) }
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
-            .subscribe(object : Observer<ResponseVideo> {
+            .subscribe(object : Observer<Any> {
                 override fun onSubscribe(d: Disposable) {
 
                 }
 
-                override fun onNext(t: ResponseVideo) {
+                override fun onNext(t: Any) {
                     val gson = Gson()
-                    val json: String = gson.toJson(t)
+                    val jsonObject: JsonObject = gson.toJsonTree(t).getAsJsonObject()
+                    val json: String = gson.toJson(jsonObject)
+                    val jsonData = JSONObject(json)
                     try {
-                        val jsonData = JSONObject(json)
-                        val jsonArray = jsonData.getJSONObject("videos")
+                        val responseJSON = jsonData.getJSONObject("response")
+                        val jsonArray = responseJSON.getJSONObject("videos")
                         val key = jsonArray.keys()
-                        Log.d("asd", key.toString())
                         while (key.hasNext()) {
                             val value = key.next()
                             val obj = jsonArray.getJSONObject(value)
@@ -119,16 +115,16 @@ class TheViewModel : ViewModel() {
                 }
 
                 override fun onError(e: Throwable) {
-                    Log.d("ase", e.toString())
+
                 }
 
                 override fun onComplete() {
-                    Collections.sort(videoList, object : Comparator<VideoClass> {
-                        override fun compare(p0: VideoClass?, p1: VideoClass?): Int {
-                            return p0!!.id.compareTo(p1!!.id)
-                        }
-
-                    })
+//                    Collections.sort(videoList, object : Comparator<VideoClass> {
+//                        override fun compare(p0: VideoClass?, p1: VideoClass?): Int {
+//                            return p0!!.id.compareTo(p1!!.id)
+//                        }
+//
+//                    })
                     liveVideoData.postValue(videoList)
                 }
             })
@@ -136,10 +132,17 @@ class TheViewModel : ViewModel() {
     }
 
 
-    fun imageList()= liveImageData as MutableLiveData<ArrayList<CategoryClass>>
+    fun imageList() = liveImageData as MutableLiveData<ArrayList<CategoryClass>>
 
     fun videoList() = liveVideoData as MutableLiveData<ArrayList<VideoClass>>
 
 }
 
+
+class TheViewModelFactory : ViewModelProvider.Factory {
+    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+        return TheViewModel as T
+    }
+
+}
 

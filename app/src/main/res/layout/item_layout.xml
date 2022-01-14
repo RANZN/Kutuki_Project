@@ -5,7 +5,5 @@
     android:id="@+id/img"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:paddingStart="50dp"
-    android:paddingTop="25dp"
-    android:paddingBottom="25dp"
+    android:padding="50dp"
     />
