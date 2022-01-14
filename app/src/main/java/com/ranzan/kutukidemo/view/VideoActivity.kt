@@ -29,7 +29,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
     private lateinit var viewModel: TheViewModel
     private lateinit var dataList: ArrayList<VideoClass>
     private val recommendedList = mutableListOf<VideoClass>()
-    private var recommendedListPlaying = 0
+    private var recommendedListPlaying = 1
     private lateinit var exoPlayer: ExoPlayer
     private lateinit var playingVideo: VideoClass
     private var fullscreen = false
@@ -131,7 +131,7 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
     override fun onItemClicked(videoClass: VideoClass, pos: Int) {
         playVideo(videoClass.videoUrl!!)
         setRecyclerView(videoClass.id, pos)
-        recommendedListPlaying = pos
+        recommendedListPlaying = pos+1
     }
 
     override fun onPause() {
@@ -146,10 +146,10 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
         else if (playbackState == Player.STATE_READY)
             videoProgressBar.visibility = View.INVISIBLE
         else if (playbackState == Player.STATE_ENDED) {
-            if (recommendedListPlaying < recommendedList.size - 1) {
+            if (recommendedListPlaying < recommendedList.size ) {
                 Toast.makeText(this, "Playing Next", Toast.LENGTH_SHORT).show()
-                playVideo(recommendedList[recommendedListPlaying++].videoUrl!!)
                 setRecyclerView(recommendedList[recommendedListPlaying].id)
+                playVideo(recommendedList[recommendedListPlaying++].videoUrl!!)
             } else {
                 Toast.makeText(this, "Completed", Toast.LENGTH_SHORT).show()
                 videoPlayer.keepScreenOn = false
