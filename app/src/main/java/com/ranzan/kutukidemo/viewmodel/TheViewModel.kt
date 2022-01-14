@@ -24,7 +24,12 @@ object TheViewModel : ViewModel() {
     private val liveImageData = MutableLiveData<MutableList<CategoryClass>>()
     private val liveVideoData = MutableLiveData<MutableList<VideoClass>>()
 
-    fun getImageData() {
+    fun fetchData() {
+        getImageData()
+        getVideoData()
+    }
+
+    private fun getImageData() {
         Network.getRetrofit().getCategory()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -35,7 +40,7 @@ object TheViewModel : ViewModel() {
 
                 override fun onNext(t: Any) {
                     val gson = Gson()
-                    val jsonObject: JsonObject = gson.toJsonTree(t).getAsJsonObject()
+                    val jsonObject: JsonObject = gson.toJsonTree(t).asJsonObject
                     val json: String = gson.toJson(jsonObject)
                     val jsonData = JSONObject(json)
                     try {
@@ -74,7 +79,7 @@ object TheViewModel : ViewModel() {
     }
 
 
-    fun getVideoData() {
+    private fun getVideoData() {
         Network.getRetrofit().getVideos()
             .observeOn(Schedulers.io())
             .subscribeOn(AndroidSchedulers.mainThread())
@@ -82,9 +87,10 @@ object TheViewModel : ViewModel() {
                 override fun onSubscribe(d: Disposable) {
                     videoList.clear()
                 }
+
                 override fun onNext(t: Any) {
                     val gson = Gson()
-                    val jsonObject: JsonObject = gson.toJsonTree(t).getAsJsonObject()
+                    val jsonObject: JsonObject = gson.toJsonTree(t).asJsonObject
                     val json: String = gson.toJson(jsonObject)
                     val jsonData = JSONObject(json)
                     try {

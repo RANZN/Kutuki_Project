@@ -29,8 +29,7 @@ class MainActivity : AppCompatActivity(), ItemCategoryClicked {
 
         viewModel = ViewModelProvider(this, TheViewModelFactory()).get(TheViewModel::class.java)
 
-        viewModel.getImageData()
-        viewModel.getVideoData()
+        viewModel.fetchData()
 
         viewModel.imageList().observe(this, Observer {
             setRecyclerView(it)
