@@ -30,7 +30,7 @@ object TheViewModel : ViewModel() {
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Any> {
                 override fun onSubscribe(d: Disposable) {
-
+                    imageList.clear()
                 }
 
                 override fun onNext(t: Any) {
@@ -80,9 +80,8 @@ object TheViewModel : ViewModel() {
             .subscribeOn(AndroidSchedulers.mainThread())
             .subscribe(object : Observer<Any> {
                 override fun onSubscribe(d: Disposable) {
-
+                    videoList.clear()
                 }
-
                 override fun onNext(t: Any) {
                     val gson = Gson()
                     val jsonObject: JsonObject = gson.toJsonTree(t).getAsJsonObject()
@@ -119,12 +118,6 @@ object TheViewModel : ViewModel() {
                 }
 
                 override fun onComplete() {
-//                    Collections.sort(videoList, object : Comparator<VideoClass> {
-//                        override fun compare(p0: VideoClass?, p1: VideoClass?): Int {
-//                            return p0!!.id.compareTo(p1!!.id)
-//                        }
-//
-//                    })
                     liveVideoData.postValue(videoList)
                 }
             })
