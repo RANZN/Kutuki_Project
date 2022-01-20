@@ -14,15 +14,22 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import com.ranzan.kutukidemo.R
+import com.ranzan.kutukidemo.model.CategoryClass
 import com.ranzan.kutukidemo.model.VideoClass
 import com.ranzan.kutukidemo.repository.Repo
 import com.ranzan.kutukidemo.view.ItemClickListners.RecommendedItemClicked
 import com.ranzan.kutukidemo.view.adpter.RecommendedAdapter
 import com.ranzan.kutukidemo.viewmodel.TheViewModel
 import com.ranzan.kutukidemo.viewmodel.TheViewModelFactory
+import io.reactivex.rxjava3.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_video.*
 import kotlinx.android.synthetic.main.exo_playback_control_view.*
+import org.json.JSONObject
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listener {
@@ -161,3 +168,5 @@ class VideoActivity : AppCompatActivity(), RecommendedItemClicked, Player.Listen
         }
     }
 }
+
+
